@@ -30,8 +30,8 @@ Tested with Unity 2021.3.16f1, supports Unity 2019 onwards.
 Steps to setup the project locally:
 1. Create new Unity project (recommended using 2D mobile template)
 2. Install package AndroidToast from git link below
-    - [AndroidToast](https://github.com/venellinus1/androidtoast.git)
+    - https://github.com/venellinus1/androidtoast.git
 3. Download project assets folder from 
-    - [Project Assets](https://github.com/venellinus1/WeatherApp_Assets)
+    - https://github.com/venellinus1/WeatherApp_Assets
 4. Place downloaded content into your project Assets folder
 5. Open the Scene "SampleScene" from `Assets/Scenes` folder
