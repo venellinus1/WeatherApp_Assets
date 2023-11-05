@@ -17,6 +17,8 @@ The architecture used follows the MVC pattern.
 
 3. **Tests: there is also `Assets\Tests` folder where can be found tests for some of the key services and functionalities. To run the tests go to Unity - Window - General - Test Runner
 
+4. **Build: in Assets\Build is included WeatherApp.apk
+
 ## Project Setup Notes
 
 In order to setup the project using the Input for location fetching please go to:
