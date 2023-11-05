@@ -1,0 +1,37 @@
+# Weather App
+
+The Weather App shows the current temperature at the location of the phone.
+
+## Project Structure
+
+The app scripts can be found at: `Assets\Features`
+
+The architecture used follows the MVC pattern.
+
+### Features
+
+1. **MainService**: It's a MonoBehaviour, applied on MainService object in Hierarchy. This service takes care of organizing the other services to perform the required business logic.
+2. **Other services**: Rest of the services implement IService interface. It has OnComplete and OnFail events and StartService method. For services requiring StartService to take params there is IServiceWithParameters Interface.
+    - **WeatherLocationService**: Takes care of fetching the GPS location of the phone. The asynchronous operations while initializing phone location service are handled with async/await pattern.
+    - **WeatherAPIService**: Takes GPS location as an input and fetches the temperature for that location for the current day. The asynchronous webrequest operation is handled again with async/await, where UnityWebRequestAwaiter Extension method was created to help with awaiting UnityWebRequest.
+
+3. **Tests: there is also `Assets\Tests` folder where can be found tests for some of the key services and functionalities.
+
+## Project Setup Notes
+
+In order to setup the project using the Input for location fetching please go to:
+- Player settings - Other settings - Configuration - Active Input Handling - please select Both
+- Player settings - Other settings - Configuration - Low Accuracy Location - please check it
+
+## Project Install
+
+Tested with Unity 2021.3.16f1, supports Unity 2019 onwards.
+
+Steps to setup the project locally:
+1. Create new Unity project (recommended using 2D mobile template)
+2. Install package AndroidToast from git link below
+    - https://github.com/venellinus1/androidtoast.git
+3. Download project assets folder from 
+    - https://github.com/venellinus1/WeatherApp_Assets
+4. Place downloaded content into your project Assets folder
+5. Open the Scene "SampleScene" from `Assets/Scenes` folder
