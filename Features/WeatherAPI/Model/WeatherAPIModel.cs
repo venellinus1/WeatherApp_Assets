@@ -11,7 +11,7 @@ namespace weatherapp.features
         public class DailyData
         {
             public List<string> time { get; set; }
-            public List<float> temperature_2m_max { get; set; }
+            public List<decimal> temperature_2m_max { get; set; }
         }
 
         [System.Serializable]

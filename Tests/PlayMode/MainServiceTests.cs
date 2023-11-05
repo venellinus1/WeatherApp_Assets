@@ -34,7 +34,7 @@ public class MainerviceTests
             Daily = new WeatherAPIModel.DailyData
             {
                 time = new List<string> { "time1", "time2" },
-                temperature_2m_max = new List<float> { 1.0f, 2.0f }
+                temperature_2m_max = new List<decimal> { 1.0m, 2.0m }
             }
         };
 

@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2f681ed13a5dbd40949f7ff5d95c108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkLocationButton: {fileID: 513371492}
+  checkLocationButton: {fileID: 1112293296}
 --- !u!4 &237588953
 Transform:
   m_ObjectHideFlags: 0
@@ -168,17 +168,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &513371492 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6887113567959265609, guid: 96442b20e15403a4cb68a82340d12f93, type: 3}
-  m_PrefabInstance: {fileID: 1829655455}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +252,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1829655455
+--- !u!1001 &1112293295
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -318,13 +307,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: AndroidToast
       objectReference: {fileID: 0}
-    - target: {fileID: 6887113567959265622, guid: 96442b20e15403a4cb68a82340d12f93, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 320
-      objectReference: {fileID: 0}
-    - target: {fileID: 6887113567959265622, guid: 96442b20e15403a4cb68a82340d12f93, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 80
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96442b20e15403a4cb68a82340d12f93, type: 3}
+--- !u!114 &1112293296 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6887113567959265609, guid: 96442b20e15403a4cb68a82340d12f93, type: 3}
+  m_PrefabInstance: {fileID: 1112293295}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
