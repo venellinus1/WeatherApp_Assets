@@ -10,10 +10,10 @@ The architecture used follows the MVC pattern.
 
 ### Features
 
-1. **MainService**: It's a MonoBehaviour, applied on MainService object in Hierarchy. This service takes care of organizing the other services to perform the required business logic.
-2. **Other services**: Rest of the services implement IService interface. It has OnComplete and OnFail events and StartService method. For services requiring StartService to take params there is IServiceWithParameters Interface.
-    - **WeatherLocationService**: Takes care of fetching the GPS location of the phone. The asynchronous operations while initializing phone location service are handled with async/await pattern.
-    - **WeatherAPIService**: Takes GPS location as an input and fetches the temperature for that location for the current day. The asynchronous webrequest operation is handled again with async/await, where UnityWebRequestAwaiter Extension method was created to help with awaiting UnityWebRequest.
+1. **MainService** : It's a MonoBehaviour, applied on MainService object in Hierarchy. This service takes care of organizing the other services to perform the required business logic.
+2. **Other services** : Rest of the services implement IService interface. It has OnComplete and OnFail events and StartService method. For services requiring StartService to take params there is IServiceWithParameters Interface.
+    - **WeatherLocationService** : Takes care of fetching the GPS location of the phone. The asynchronous operations while initializing phone location service are handled with async/await pattern.
+    - **WeatherAPIService** : Takes GPS location as an input and fetches the temperature for that location for the current day. The asynchronous webrequest operation is handled again with async/await, where UnityWebRequestAwaiter Extension method was created to help with awaiting UnityWebRequest.
 
 3. **Tests: there is also `Assets\Tests` folder where can be found tests for some of the key services and functionalities. To run the tests go to Unity - Window - General - Test Runner
 
