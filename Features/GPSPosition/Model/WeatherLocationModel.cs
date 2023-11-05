@@ -13,11 +13,5 @@ namespace weatherapp.features
         public float Longitude { get; set; }
 
     }
-    public interface IWeatherLocation
-    {
-        float Latitude { get; set; }
-        float Longitude { get; set; }
-    }
-
-    
+       
 }

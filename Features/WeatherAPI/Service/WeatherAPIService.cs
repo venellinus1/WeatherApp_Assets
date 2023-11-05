@@ -9,15 +9,27 @@ using weatherapp.main;
 
 namespace weatherapp.features
 {
+    public interface IWeatherLocation
+    {
+        float Latitude { get; set; }
+        float Longitude { get; set; }
+    }
     public interface IWebRequest
     {
         Task<string> Get(string url);
     }
+    /// <summary>
+    /// IServiceWithParameters takes two arguments, one defines the result type
+    /// IWeatherService helps combining IWeatherLocation and IWebRequest so IServiceWithParameters takes IWeatherService as a second parameter
+    /// </summary>
     public interface IWeatherService : IWeatherLocation, IWebRequest
     {
 
     }
-
+    /// <summary>
+    /// a class implementing the IWeatherService
+    /// wraps unitywebrequest
+    /// </summary>
     public class WeatherService : IWeatherService
     {
         public float Latitude { get; set; }

@@ -11,7 +11,7 @@ namespace weatherapp.features
         public class DailyData
         {
             public List<string> time { get; set; }
-            public List<double> temperature_2m_max { get; set; }
+            public List<float> temperature_2m_max { get; set; }
         }
 
         [System.Serializable]
@@ -44,13 +44,8 @@ namespace weatherapp.features
         {            
             return new WeatherAPIResult(geoTemperatureData.Daily.time[0], geoTemperatureData.Daily.temperature_2m_max[0]);
         }
-        public interface IWebRequest
-        {
-            Task<string> Get(string url);
-        }
-        public interface IWeatherService : IWeatherLocation, IWebRequest
-        {
-
-        }
+        
+        
     }
+    
 }

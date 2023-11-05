@@ -93,7 +93,6 @@ public class WeatherLocationServiceTests
         Assert.AreEqual(100.0f, result.Longitude);
     }
 
-    
 
     [Test]
     public void StartService_Fails_WhenLocationServiceIsNotEnabledByUser()

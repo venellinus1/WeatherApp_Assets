@@ -15,8 +15,7 @@ namespace weatherapp.features
         public async void StartService(ILocationService locationService)
         {
             try
-            {
-                //var locationService = new AndroidLocationService();
+            {                
                 WeatherLocationModel result = await ReadLocation(locationService);                
                 OnComplete?.Invoke(result);
             }

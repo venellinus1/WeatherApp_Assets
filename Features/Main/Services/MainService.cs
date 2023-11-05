@@ -6,8 +6,6 @@ using venelin.androidutils;
 
 namespace weatherapp.main
 {
-    
-
     public class MainService : MonoBehaviour 
     {
         public Button checkLocationButton;       
