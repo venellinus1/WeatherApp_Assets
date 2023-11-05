@@ -1,6 +1,7 @@
+
 namespace weatherapp.features
 {
-    public class WeatherLocationModel
+    public class WeatherLocationModel : IWeatherLocation
     {
         public WeatherLocationModel(float latitude, float longitude)
         {
@@ -12,4 +13,11 @@ namespace weatherapp.features
         public float Longitude { get; set; }
 
     }
+    public interface IWeatherLocation
+    {
+        float Latitude { get; set; }
+        float Longitude { get; set; }
+    }
+
+    
 }

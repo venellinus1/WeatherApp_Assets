@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
-
+using System.Threading.Tasks;
 namespace weatherapp.features
 {
     public class WeatherAPIModel : MonoBehaviour
@@ -43,6 +43,14 @@ namespace weatherapp.features
         public static WeatherAPIResult WeatherResult(GeoTemperatureData geoTemperatureData)
         {            
             return new WeatherAPIResult(geoTemperatureData.Daily.time[0], geoTemperatureData.Daily.temperature_2m_max[0]);
+        }
+        public interface IWebRequest
+        {
+            Task<string> Get(string url);
+        }
+        public interface IWeatherService : IWeatherLocation, IWebRequest
+        {
+
         }
     }
 }

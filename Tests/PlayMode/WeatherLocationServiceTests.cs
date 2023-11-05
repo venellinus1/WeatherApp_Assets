@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
-using System.Threading.Tasks;
 using weatherapp.features;
 using weatherapp.main;
-using System.Reflection;
+using System;
+using System.Diagnostics;
+using System.Threading;
 public class WeatherLocationServiceTests
 {
     private WeatherLocationService _weatherLocationService;
@@ -18,22 +16,21 @@ public class WeatherLocationServiceTests
     [TearDown]
     public void TearDown()
     {
-        Object.Destroy(_weatherLocationService);
+        UnityEngine.Object.Destroy(_weatherLocationService);
     }
 
-    
-
-    [Test]
-    public void StartService_WhenCalled_ShouldInvokeOnComplete()
+    private class DummyLocationService : ILocationService
     {
-        bool wasOnCompleteCalled = false;
-        _weatherLocationService.OnComplete += (locationData) => wasOnCompleteCalled = true;
+        public bool IsEnabledByUser { get; set; }
+        public LocationServiceStatus Status { get; set; }
+        public float LocationLatitude { get; set; }
+        public float LocationLongitude { get; set; }
 
-        _weatherLocationService.StartService();
-
-        Assert.IsTrue(wasOnCompleteCalled);
-    }
-
+        public void Start(float desiredAccuracyInMeters, float updateDistanceInMeters)
+        {
+            //todo recheck tests for start method??
+        }
+    }    
     
     [Test]
     public void StartService_WhenStarted_DoesNotThrowException()
@@ -44,40 +41,106 @@ public class WeatherLocationServiceTests
     [Test]
     public void StartService_CalledMultipleTimes_InvokesOnCompleteForAllCalls()
     {
+        var dummyLocationService = new DummyLocationService
+        {
+            IsEnabledByUser = true,
+            Status = LocationServiceStatus.Running,
+            LocationLatitude = 50.0f,
+            LocationLongitude = 100.0f
+        };
+
         int onCompleteInvocationCount = 0;
         _weatherLocationService.OnComplete += (locationData) => onCompleteInvocationCount++;
 
-        _weatherLocationService.StartService();
-        _weatherLocationService.StartService();
-        _weatherLocationService.StartService();
-        _weatherLocationService.StartService();
+        _weatherLocationService.StartService(dummyLocationService);
+        _weatherLocationService.StartService(dummyLocationService);
+        _weatherLocationService.StartService(dummyLocationService);
+        _weatherLocationService.StartService(dummyLocationService);
 
         Assert.AreEqual(4, onCompleteInvocationCount);
     }
 
-    // Define a manual mock implementation of ILocationService for testing
-    public class ManualLocationService : ILocationService
+    [Test]
+    public void StartService_CompletesWithCorrectLocation_WhenLocationServiceIsEnabled()
     {
-        // Properties to control behavior during testing
-        public bool IsEnabledByUser { get; set; }
-        public LocationServiceStatus Status { get; set; }
-
-        public void Start(float desiredAccuracyInMeters, float updateDistanceInMeters)
+        // Arrange
+        var dummyLocationService = new DummyLocationService
         {
-            // Simulate the behavior you want for testing
-            // For example, set properties to specific values based on the test scenario
+            IsEnabledByUser = true,
+            Status = LocationServiceStatus.Running,
+            LocationLatitude = 50.0f,
+            LocationLongitude = 100.0f
+        };
+
+        WeatherLocationModel result = null;
+
+        // Subscribe to the OnComplete event
+        _weatherLocationService.OnComplete += (location) => { result = location; };
+
+        // Act
+        _weatherLocationService.StartService(dummyLocationService);
+
+        var timeout = TimeSpan.FromSeconds(20);
+        var stopwatch = Stopwatch.StartNew();
+        while (result == null && stopwatch.Elapsed < timeout)
+        {
+            Thread.Sleep(100);
         }
+
+        // Assert
+        Assert.IsNotNull(result, "Timeout: The OnComplete event was not fired within the expected time.");
+        Assert.AreEqual(50.0f, result.Latitude);
+        Assert.AreEqual(100.0f, result.Longitude);
+    }
+
+    
+
+    [Test]
+    public void StartService_Fails_WhenLocationServiceIsNotEnabledByUser()
+    {
+        // Arrange
+        var dummyLocationService = new DummyLocationService
+        {
+            IsEnabledByUser = false,// the service not being enabled by the user
+            Status = LocationServiceStatus.Running,
+            LocationLatitude = 50.0f,
+            LocationLongitude = 100.0f
+        };
+
+        bool failed = false;
+
+        //Subscribe to the OnFail event
+        _weatherLocationService.OnFail += () => { failed = true; };
+
+        //Act
+        _weatherLocationService.StartService(dummyLocationService);
+
+        //Assert
+        Assert.IsTrue(failed, "The OnFail event was not fired as expected");
     }
 
     [Test]
-    public void TestReadLocation()
+    public void StartService_Fails_WhenLocationServiceStatusIsFailed()
     {
-        var weatherLocationService = new WeatherLocationService();
+        //Arrange
+        var dummyLocationService = new DummyLocationService
+        {
+            IsEnabledByUser = true,
+            Status = LocationServiceStatus.Failed,//should fail if (locationService.Status == LocationServiceStatus.Failed)
+            LocationLatitude = 50.0f,
+            LocationLongitude = 100.0f
+        };
 
-        var methodInfo = weatherLocationService.GetType().GetMethod("ReadLocation", BindingFlags.NonPublic | BindingFlags.Instance);
-        var result = methodInfo.Invoke(weatherLocationService, new object[] { /* parameter values */ }) as Task<WeatherLocationModel>;
+        bool failed = false;
 
-        // Assert and validate the result as needed
+        //Subscribe to the OnFail event
+        _weatherLocationService.OnFail += () => { failed = true; };
+
+        //Act
+        _weatherLocationService.StartService(dummyLocationService);
+
+        //Assert
+        Assert.IsTrue(failed, "The OnFail event was not fired as expected");
     }
 
 }

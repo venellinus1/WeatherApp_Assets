@@ -153,7 +153,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkLocationButton: {fileID: 513371492}
-  checkLocationButtonV1: {fileID: 0}
 --- !u!4 &237588953
 Transform:
   m_ObjectHideFlags: 0

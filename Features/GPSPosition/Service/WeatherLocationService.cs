@@ -7,16 +7,17 @@ using weatherapp.main;
 namespace weatherapp.features
 {
     
-    public class WeatherLocationService : MonoBehaviour, IService<WeatherLocationModel>
+    public class WeatherLocationService : MonoBehaviour, IServiceWithParameters<WeatherLocationModel, ILocationService>
     {
         public event Action<WeatherLocationModel> OnComplete;
         public event Action OnFail;
-
-        public async void StartService()
+        public void StartService() { }
+        public async void StartService(ILocationService locationService)
         {
             try
             {
-                WeatherLocationModel result = await ReadLocation();                
+                //var locationService = new AndroidLocationService();
+                WeatherLocationModel result = await ReadLocation(locationService);                
                 OnComplete?.Invoke(result);
             }
             catch
@@ -24,7 +25,7 @@ namespace weatherapp.features
                 OnFail?.Invoke();
             }
         }
-        /*
+        
         private async Task<WeatherLocationModel> ReadLocation(ILocationService locationService)
         {
             if (!locationService.IsEnabledByUser)
@@ -41,7 +42,7 @@ namespace weatherapp.features
             {
                 await Task.Delay(TimeSpan.FromSeconds(2));
                 Toast.ShowToast("Initializing Location service on phone...");
-                maxWait--;
+                maxWait--;                
             }
 
             if (maxWait < 1)
@@ -58,41 +59,8 @@ namespace weatherapp.features
                 return new WeatherLocationModel(0, 0);
             }
 
-            return new WeatherLocationModel(locationService.lastData.latitude, locationService.lastData.longitude);
-        }*/
-
-        private async Task<WeatherLocationModel> ReadLocation()
-        {            
-            if (!Input.location.isEnabledByUser)
-                Toast.ShowToast("Location not enabled on device or app does not have permission to access location");
-            // Start the location service
-            Input.location.Start(1000f, 1000f);
-
-            // Waits until the location service initializes
-            int maxWait = 20;
-            while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
-            {                
-                await Task.Delay(TimeSpan.FromSeconds(2));
-                Toast.ShowToast("Initializing Location service on phone...");
-                maxWait--;
-            }
-            // If the service didn't initialize in maxWait seconds this cancels location service use
-            if (maxWait < 1)
-            {                
-                Toast.ShowToast($"Timed out trying to initialize Location service");
-                OnFail?.Invoke();
-                return new WeatherLocationModel(0, 0);
-            }
-            // If the connection failed this cancels location service use.
-            if (Input.location.status == LocationServiceStatus.Failed)
-            {
-                Toast.ShowToast("Unable to determine device location");
-                OnFail?.Invoke();
-                return new WeatherLocationModel(0, 0);
-            }
-
-            return new WeatherLocationModel(Input.location.lastData.latitude, Input.location.lastData.longitude);
-        }
+            return new WeatherLocationModel(locationService.LocationLatitude, locationService.LocationLongitude);
+        }       
     }
 
     public interface ILocationService
@@ -100,6 +68,9 @@ namespace weatherapp.features
         bool IsEnabledByUser { get; }
         LocationServiceStatus Status { get; }
         void Start(float desiredAccuracyInMeters, float updateDistanceInMeters);
+
+        float LocationLatitude { get; }
+        float LocationLongitude { get; }
     }
 
     public class AndroidLocationService : ILocationService
@@ -111,7 +82,9 @@ namespace weatherapp.features
         {
             Input.location.Start(desiredAccuracyInMeters, updateDistanceInMeters);
         }
+        public float LocationLatitude => Input.location.lastData.latitude;
+        public float LocationLongitude => Input.location.lastData.longitude;
+        //todo recheck if more methods and/or properties needed ...
 
-        // Add more methods and properties as needed to implement the interface
     }
 }
