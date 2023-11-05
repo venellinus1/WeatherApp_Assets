@@ -15,7 +15,7 @@ The architecture used follows the MVC pattern.
     - **WeatherLocationService**: Takes care of fetching the GPS location of the phone. The asynchronous operations while initializing phone location service are handled with the async/await pattern.
     - **WeatherAPIService**: Takes GPS location as an input and fetches the temperature for that location for the current day. The asynchronous web request operation is handled again with async/await, where the UnityWebRequestAwaiter Extension method was created to help with awaiting UnityWebRequest.
 
-3. **Tests**: There is also `Assets\Tests` folder where you can find tests for some of the key services and functionalities. To run the tests, go to Unity - Window - General - Test Runner.
+3. **Tests**: There is also `Assets\Tests` folder where you can find tests for some of the key services and functionalities. Tests implement NUnit Framework. To run the tests, go to Unity - Window - General - Test Runner.
 
 4. **Build**: In `Assets\Build`, the WeatherApp.apk is included.
 
