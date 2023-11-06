@@ -5,17 +5,27 @@ The Weather App shows the current temperature at the location of the phone.
 ## Project Structure
 
 The app scripts can be found at: `Assets\Features`
+The Test scripts can be found at:  `Assets\Tests`
 
-The architecture used follows the MVC pattern.
+### The architecture used follows the Service-Oriented Architecture pattern with having at the moment three services/features listed below:
 
 ### Features
 
-1. **MainService**: It's a MonoBehaviour, applied to the MainService object in the Hierarchy. This service takes care of organizing the other services to perform the required business logic.
-2. **Other services**: The rest of the services implement the IService interface. It has OnComplete and OnFail events and the StartService method. For services requiring StartService to take params, there is the IServiceWithParameters Interface.
-    - **WeatherLocationService**: Takes care of fetching the GPS location of the phone. The asynchronous operations while initializing phone location service are handled with the async/await pattern.
-    - **WeatherAPIService**: Takes GPS location as an input and fetches the temperature for that location for the current day. The asynchronous web request operation is handled again with async/await, where the UnityWebRequestAwaiter Extension method was created to help with awaiting UnityWebRequest.
+1. **MainService**: `Assets\Features\Main\Services` 
+It's a MonoBehaviour, applied to the MainService object in the Hierarchy. This service takes care of organizing the other services to perform the required business logic.
 
-3. **Tests**: There is also `Assets\Tests` folder where you can find tests for some of the key services and functionalities. Tests implement NUnit Framework. To run the tests, go to Unity - Window - General - Test Runner.
+2. **Other services**: The rest of the services implement the IService interface. It has OnComplete and OnFail events and the StartService method. For services requiring StartService to take params, there is the IServiceWithParameters Interface.
+    
+- **WeatherLocationService**: `Assets\Features\GPSPosition\Service`
+Takes care of fetching the GPS location of the phone. The asynchronous operations while initializing phone location service are handled with the async/await pattern. 
+The service is initialized with its dependency ILocationService which wraps IWebRequest and the Unity's Input.Location
+    
+- **WeatherAPIService**: `Assets\Features\Features\WeatherAPI\Service`
+Takes GPS location as an input and fetches the temperature for that location for the current day. The asynchronous web request operation is handled with async/await. UnityWebRequestAwaiter Extension method was created to help with awaiting UnityWebRequest.
+The service is initialized with its dependency IWeatherService which is a composite interface that extends the IWeatherLocation and IWebRequest interfaces. The IWeatherLocation interface represents a geographical location. 
+The IWebRequest interface represents a web request - sends a GET request to the specified URL of string type and returns the response string.
+
+3. **Tests**: There is also `Assets\Tests` folder where can be found tests for some of the key behaviours. Tests implement NUnit Framework. To run the tests, go to Unity - Window - General - Test Runner.
 
 4. **Build**: In `Assets\Build`, the WeatherApp.apk is included.
 
