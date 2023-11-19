@@ -10,7 +10,7 @@ using weatherapp.main;
 namespace weatherapp.features
 {
     public interface IWeatherLocation
-    {
+    {        
         float Latitude { get; set; }
         float Longitude { get; set; }
     }
@@ -70,7 +70,9 @@ namespace weatherapp.features
         
         public async Task<string> GetWeatherForecastV1(IWeatherService webrequest)
         {
-            string url = $"{weatherAPIEndpointUrl}?latitude={webrequest.Latitude}&longitude={webrequest.Longitude}&timezone=IST&daily=temperature_2m_max";
+            //string url = $"{weatherAPIEndpointUrl}?latitude={webrequest.Latitude}&longitude={webrequest.Longitude}&timezone=IST&daily=temperature_2m_max";
+            string url = $"{weatherAPIEndpointUrl}?latitude={webrequest.Latitude}&longitude={webrequest.Longitude}&daily=temperature_2m_max";
+            Debug.Log($"url {url}");
             return await webrequest.Get(url);
         }
 
