@@ -85,5 +85,6 @@ namespace weatherapp.features
         public float LocationLongitude => Input.location.lastData.longitude;
         //todo recheck if more methods and/or properties needed ...
 
+       
     }
 }
